@@ -8,6 +8,10 @@ use Mix.Config
 # with brunch.io to recompile .js and .css sources.
 config :endlesshoney, EndlesshoneyWeb.Endpoint,
   http: [port: 4000],
+  https: [port: 4443,
+    otp_app: :endlesshoney ,
+    keyfile: "priv/keys/endlesshoney_dev.key",
+    certfile: "priv/keys/endlesshoney_dev.cert"],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
