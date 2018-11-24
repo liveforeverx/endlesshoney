@@ -15,7 +15,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :endlesshoney, EndlesshoneyWeb.Endpoint,
   load_from_system_env: true,
-  url: [host: "example.com", port: 80],
+  url: [host: "endlesshoney.gigalixirapp.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
   http: [port: {:system, "PORT"}], # Needed for Phoenix 1.2 and 1.4. Doesn't hurt for 1.3.
   server: true, # Without this line, your app will not start the web server!
