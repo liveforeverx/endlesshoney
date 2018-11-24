@@ -3,6 +3,7 @@ defmodule EndlesshoneyWeb.UserSocket do
 
   ## Channels
   # channel "room:*", EndlesshoneyWeb.RoomChannel
+  channel "call", EndlesshoneyWeb.CallChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
