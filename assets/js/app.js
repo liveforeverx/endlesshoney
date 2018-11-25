@@ -41,7 +41,7 @@ function renderOnlineUsers(presences) {
     response += `<br>${id} (count: ${count})</br>`
   });
 
-  document.querySelector("main[role=main]").innerHTML = response;
+  document.querySelector("#uids").innerHTML = response;
 }
 
 socket.connect()
