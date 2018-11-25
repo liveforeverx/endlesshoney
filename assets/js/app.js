@@ -20,9 +20,11 @@ import "phoenix_html"
 
 import {Socket, Presence} from "phoenix"
 
+let myUid = guid();
+
 let socket = new Socket("/socket", {
-  params: {user_id: guid()}
-})
+  params: {user_id: myUid}
+});
 
 function guid() {
   function s4() {
@@ -37,8 +39,9 @@ function renderOnlineUsers(presences) {
   let response = "";
 
   Presence.list(presences, (id, {metas: [first, ...rest]}) => {
-    let count = rest.length + 1
-    response += `<br>${id} (count: ${count})</br>`
+    let count = rest.length + 1;
+    let myself = id == myUid;
+    response += `<br data-presence-id="${id}" data-presence-self="${myself}">${id} (count: ${count})</br>`;
   });
 
   document.querySelector("#uids").innerHTML = response;
