@@ -14,6 +14,7 @@ defmodule Endlesshoney.Application do
       supervisor(EndlesshoneyWeb.Endpoint, []),
       # Start your own worker by calling: Endlesshoney.Worker.start_link(arg1, arg2, arg3)
       # worker(Endlesshoney.Worker, [arg1, arg2, arg3]),
+      supervisor(EndlesshoneyWeb.Presence, []),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
