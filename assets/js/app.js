@@ -18,9 +18,49 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import socket from "./socket"
+import {Socket, Presence} from "phoenix"
 
+let myUid = guid();
+
+let socket = new Socket("/socket", {
+  params: {user_id: myUid}
+});
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+
+function renderOnlineUsers(presences) {
+  let response = "";
+
+  Presence.list(presences, (id, {metas: [first, ...rest]}) => {
+    let count = rest.length + 1;
+    let myself = id == myUid;
+    response += `<br data-presence-id="${id}" data-presence-self="${myself}">${id} (count: ${count})</br>`;
+  });
+
+  document.querySelector("#uids").innerHTML = response;
+}
+
+socket.connect()
+let presences = {}
 let channel = socket.channel("call", {})
+
+channel.on("presence_state", state => {
+  presences = Presence.syncState(presences, state)
+  renderOnlineUsers(presences)
+})
+
+channel.on("presence_diff", diff => {
+  presences = Presence.syncDiff(presences, diff)
+  renderOnlineUsers(presences)
+})
+
 channel.join()
   .receive("ok", () => { console.log("Successfully joined call channel") })
   .receive("error", () => { console.log("Unable to join") })
